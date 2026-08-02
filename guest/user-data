@@ -1,0 +1,20 @@
+#cloud-config
+hostname: cpcidev
+password: cpcidev
+chpasswd:
+  expire: false
+ssh_pwauth: true
+ssh_authorized_keys:
+  - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIO0rjNV9Hl5Fe5ac8bUiS2Bov+gnOShPrDZQVm1HBJBz cpcidev
+# Auto-mount the host's driver/ folder (virtio-9p tag 'driver') at ~/cpcidev.
+# This writes /etc/fstab, so it keeps working every boot even after cloud-init
+# is disabled. 'nofail' means boot still succeeds if the share is absent.
+mounts:
+  - [ driver, /home/ubuntu/cpcidev, 9p, "trans=virtio,version=9p2000.L,rw,nofail,x-systemd.device-timeout=5", "0", "0" ]
+runcmd:
+  - [ bash, -c, "mkdir -p /home/ubuntu/cpcidev && chown ubuntu:ubuntu /home/ubuntu/cpcidev" ]
+  - [ bash, -c, "mount /home/ubuntu/cpcidev 2>/dev/null || true" ]
+  - [ bash, -c, "mkdir -p /etc/systemd/system/serial-getty@ttyS0.service.d" ]
+  - [ bash, -c, "printf '[Service]\nExecStart=\nExecStart=-/sbin/agetty --autologin ubuntu --noclear %%I 115200 linux\n' > /etc/systemd/system/serial-getty@ttyS0.service.d/autologin.conf" ]
+  - [ systemctl, daemon-reload ]
+  - [ systemctl, restart, "serial-getty@ttyS0.service" ]

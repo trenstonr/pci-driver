@@ -1,0 +1,10 @@
+# Kernel module build artifacts (produced when you 'make' in the guest)
+*.o
+*.ko
+*.mod
+*.mod.c
+*.mod.o
+*.symvers
+*.order
+.*.cmd
+.tmp_versions/

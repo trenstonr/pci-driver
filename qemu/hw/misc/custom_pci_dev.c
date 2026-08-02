@@ -2,7 +2,6 @@
 #include "qemu/osdep.h"
 #include "qemu/units.h"
 #include "hw/pci/pci.h"
-#include "hw/hw.h"
 #include "hw/pci/msi.h"
 #include "qemu/timer.h"
 #include "qom/object.h"
@@ -187,7 +186,7 @@ static void cpcidev_instance_init(Object *obj)
     return ;
 }
 
-static void cpcidev_class_init(ObjectClass *class, void *data)
+static void cpcidev_class_init(ObjectClass *class, const void *data)
 {
     DeviceClass *dc = DEVICE_CLASS(class);
     PCIDeviceClass *k = PCI_DEVICE_CLASS(class);

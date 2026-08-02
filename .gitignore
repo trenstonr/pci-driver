@@ -53,3 +53,15 @@ dkms.conf
 
 # debug information files
 *.dwo
+
+# --- project: build tree, venv, and large/secret guest artifacts ---
+.venv/
+qemu/build/
+# Guest VM artifacts (large, generated, or secret — regenerate locally)
+guest/noble-cloudimg-amd64.img
+guest/OVMF_VARS.fd
+guest/seed.iso
+guest/boot.log
+guest/qemu.err
+guest/id_cpcidev
+guest/id_cpcidev.pub
