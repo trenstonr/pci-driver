@@ -11,6 +11,7 @@
 
 #include <linux/pci.h>
 #include <linux/slab.h>
+#include <linux/device.h>
 
 struct dev_inst {
 	void __iomem *bar0;
@@ -36,6 +37,8 @@ static int probe (struct pci_dev *pdev, const struct pci_device_id *id) {
 
 	// store dv pointer in pdev for future use
 	pci_set_drvdata(pdev, dv);
+
+	dev_info(&pdev->dev, "REG_ID = 0x%08x\n", ioread32(dv->bar0 + REG_ID));
 
 	return 0;
 }
