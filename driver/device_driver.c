@@ -38,7 +38,14 @@ static int probe (struct pci_dev *pdev, const struct pci_device_id *id) {
 	// store dv pointer in pdev for future use
 	pci_set_drvdata(pdev, dv);
 
+	// read REG_ID and log to dmesg
 	dev_info(&pdev->dev, "REG_ID = 0x%08x\n", ioread32(dv->bar0 + REG_ID));
+
+	// calculate 3 + 4
+	iowrite32(3, dv->bar0 + REG_OP1);
+	iowrite32(4, dv->bar0 + REG_OP2);
+	iowrite32(1, dv->bar0 + REG_OPCODE);
+	dev_info(&pdev->dev, "3 + 4 = %u\n", ioread32(dv->bar0 + REG_RESULT));
 
 	return 0;
 }
