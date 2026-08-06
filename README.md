@@ -1,4 +1,4 @@
-# cpcidev
+# pci-driver
 
 Linux PCI driver for a simple, emulated QEMU device (`1234:abcd`). Maps BAR0, writes two operands and an opcode, reads back the result.
 
